@@ -2,18 +2,18 @@ let connectionString;
 
 describe("Example Test with Postgres 2", () => {
   before(() => {
-    cy.task("getConnectionString1").then((connStr) => {
+    cy.task("getConnectionString").then((connStr) => {
       connectionString = connStr;
-      cy.task("log1", `Connecting to: ${connectionString}`);
+      cy.task("log", `Connecting to: ${connectionString}`);
     });
   });
 
   it("connects to PostgreSQL database", () => {
-    cy.task("queryDatabase1", {
+    cy.task("queryDatabase", {
       connectionString: connectionString,
       query: "SELECT 1",
     }).then((result) => {
-      cy.task("log1", `Query result: ${JSON.stringify(result)}`);
+      cy.task("log", `Query result: ${JSON.stringify(result)}`);
     });
   });
 
@@ -28,7 +28,7 @@ describe("Example Test with Postgres 2", () => {
     cy.contains("Edit").click();
     cy.contains("new_new_name").should("be.visible");
 
-    cy.task("queryDatabase1", {
+    cy.task("queryDatabase", {
       connectionString: connectionString,
       query: "SELECT * FROM test_table WHERE name = 'new_new_name';",
     }).then((result) => {

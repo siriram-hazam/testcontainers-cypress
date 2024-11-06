@@ -39,18 +39,11 @@ module.exports = (on, config) => {
     try {
       const result1 = await buildAndStartContainer(
         "test_db1",
-        5433,
+        5432,
         "../../ui-test1/.env"
       );
-      const result2 = await buildAndStartContainer(
-        "test_db2",
-        5434,
-        "../../ui-test2/.env"
-      );
       containers.db1 = result1.container;
-      containers.db2 = result2.container;
       containers.connectionString1 = result1.connectionString;
-      containers.connectionString2 = result2.connectionString;
       console.log("All containers started successfully");
     } catch (error) {
       console.error("Error starting containers:", error);
@@ -72,39 +65,16 @@ module.exports = (on, config) => {
   });
 
   on("task", {
-    log1(message) {
+    log(message) {
       console.log(message);
       return null;
     },
-    log2(message) {
-      console.log(message);
-      return null;
-    },
-    getConnectionString1() {
+    getConnectionString() {
       return containers.connectionString1 || null;
     },
-    getConnectionString2() {
-      return containers.connectionString2 || null;
-    },
-    queryDatabase1({ query }) {
+    queryDatabase({ query }) {
       const client = new Client({
         connectionString: containers.connectionString1,
-      });
-      return client
-        .connect()
-        .then(() => client.query(query))
-        .then((res) => {
-          client.end();
-          return res.rows;
-        })
-        .catch((err) => {
-          client.end();
-          throw err;
-        });
-    },
-    queryDatabase2({ query }) {
-      const client = new Client({
-        connectionString: containers.connectionString2,
       });
       return client
         .connect()
