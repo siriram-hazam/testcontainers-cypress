@@ -1,4 +1,4 @@
-# Cypress Testcontainer Project
+# Cypress Testcontainer Project Example for Integration Test Between UI Frontend Database and Backend
 
 This project demonstrates how to use Testcontainers with Cypress to create isolated testing environments for frontend and backend integration testing. It includes setup for PostgreSQL as a service container and a Node.js backend, with Cypress handling the UI and API tests.
 
